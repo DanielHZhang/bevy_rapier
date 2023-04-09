@@ -69,6 +69,10 @@ impl RapierDebugRenderPlugin {
     }
 }
 
+/// SystemSet containing the debug render systems.
+#[derive(SystemSet, Clone, Debug, PartialEq, Eq, Hash)]
+pub struct DebugRenderSet;
+
 /// Context to control some aspect of the debug-renderer after initialization.
 #[derive(Resource)]
 pub struct DebugRenderContext {
@@ -94,7 +98,7 @@ impl Plugin for RapierDebugRenderPlugin {
             enabled: self.enabled,
             pipeline: DebugRenderPipeline::new(self.style, self.mode),
         })
-        .add_systems(PostUpdate, debug_render_scene);
+        .add_systems(PostUpdate, debug_render_scene.in_set(DebugRenderSet));
     }
 }
 
